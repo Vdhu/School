@@ -3,42 +3,57 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Гродно 40 - Интерактив</title>
+<title>Гродно 40 - Интерактивный гид</title>
 <style>
-    body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: 'Segoe UI', sans-serif; background: #000; }
+    body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #000; }
+    
+    /* Основной фон с плавным переходом */
     #main_bg {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background-image: url('https://planetabelarus.by/upload/iblock/fe9/50cl73ugx9a8i3eqggza4do0epoh5mc8.webp');
+        background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Hrodna_Cathedral_2021.jpg/1920px-Hrodna_Cathedral_2021.jpg');
         background-size: cover; background-position: center;
-        transition: background-image 1s ease-in-out; z-index: -1;
+        transition: background-image 1.2s ease-in-out; z-index: -1;
     }
-    .shirm { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 0; }
+
+    .shirm { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.45); z-index: 0; }
+
+    /* Контейнер для кнопок */
     .knopki {
-        position: absolute; left: 20px; top: 50%; transform: translateY(-50%);
-        display: flex; flex-direction: column; gap: 8px; z-index: 10;
+        position: absolute; left: 30px; top: 50%; transform: translateY(-50%);
+        display: flex; flex-direction: column; gap: 10px; z-index: 10;
     }
+
     .btn {
-        background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.3);
-        color: white; padding: 12px 20px; cursor: pointer; width: 220px;
-        text-align: left; border-radius: 5px; font-size: 15px; transition: 0.3s;
+        background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);
+        color: white; padding: 14px 22px; cursor: pointer; width: 240px;
+        text-align: left; border-radius: 6px; font-size: 16px; transition: 0.4s;
     }
-    .btn:hover { background: rgba(255, 255, 255, 0.4); transform: translateX(10px); border-color: #ffd700; }
+
+    /* Эффект при наведении */
+    .btn:hover { background: rgba(255, 255, 255, 0.35); transform: scale(1.05) translateX(10px); border-color: #ffd700; color: #fff; }
+
+    /* Описание объекта */
     .opisanie {
-        position: absolute; right: 20px; bottom: 20px; width: 320px;
-        background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(15px);
-        color: white; padding: 25px; border-radius: 12px; z-index: 10;
-        border-right: 4px solid #ffd700; transition: 0.5s;
+        position: absolute; right: 30px; bottom: 40px; width: 350px;
+        background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(20px);
+        color: white; padding: 30px; border-radius: 15px; z-index: 10;
+        border-bottom: 5px solid #ffd700; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
-    h2 { margin: 0 0 10px 0; color: #ffd700; font-size: 22px; }
-    p { font-size: 15px; line-height: 1.6; margin: 0; opacity: 0.9; }
-    .avtor { position: absolute; top: 15px; left: 20px; color: white; font-size: 12px; opacity: 0.5; z-index: 10; }
+
+    h2 { margin: 0 0 15px 0; color: #ffd700; font-size: 24px; letter-spacing: 1px; }
+    p { font-size: 16px; line-height: 1.6; margin: 0; opacity: 0.95; }
+
+    .avtor { position: absolute; top: 20px; left: 30px; color: white; font-size: 13px; opacity: 0.6; z-index: 10; font-weight: bold; }
 </style>
 </head>
 <body>
+
 <div id="main_bg"></div>
 <div class="shirm"></div>
-<div class="avtor">СШ №40 г. Гродно</div>
+
+<div class="avtor">ИНТЕРАКТИВНЫЙ ПЛАКАТ • СШ №40 ГРОДНО</div>
+
 <div class="knopki">
     <button class="btn" onmouseover="smotret('z')">🏰 Старый замок</button>
     <button class="btn" onmouseover="smotret('nz')">👑 Новый замок</button>
@@ -49,65 +64,76 @@
     <button class="btn" onmouseover="smotret('pk')">🚒 Пожарная каланча</button>
     <button class="btn" onmouseover="smotret('a')">💊 Аптека-музей</button>
 </div>
+
 <div class="opisanie">
     <div id="info">
-        <h2>Гродно</h2>
-        <p>Наведи на список слева, чтобы изучить легендарные места королевского города.</p>
+        <h2>Королевский Гродно</h2>
+        <p>Добро пожаловать в наш город! Наведите на список слева, чтобы увидеть главные достопримечательности и узнать их историю. Каждый объект — это часть нашей великой памяти.</p>
     </div>
 </div>
+
 <script>
     var places = {
         z: {
             t: "Старый замок",
-            d: "Главная резиденция королей. Возведен в 14 веке, пережил десятки осад и сейчас восстановлен в облике эпохи Стефана Батория. Внутри находятся уникальные музейные экспозиции.",
+            d: "Уникальное оборонительное сооружение и королевская резиденция. Построенный в 14 веке, замок пережил множество перестроек. Сейчас это главная историческая жемчужина Гродно, восстановленная в стиле ренессанс.",
             i: "https://planetabelarus.by/upload/iblock/fe9/50cl73ugx9a8i3eqggza4do0epoh5mc8.webp"
         },
         nz: {
             t: "Новый замок",
-            d: "Королевский дворец в стиле рококо, построенный прямо напротив Старого замка. Здесь проходили важные сеймы Речи Посполитой и решалась судьба европейской истории.",
+            d: "Построен в 18 веке как летняя резиденция польских королей. Именно здесь проходил исторический 'тихий сейм' и был подписан акт о втором разделе Речи Посполитой. Сейчас здесь музей.",
             i: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Hrodna_New_Castle_01.jpg/1280px-Hrodna_New_Castle_01.jpg"
         },
         k: {
             t: "Коложская церковь",
-            d: "Один из древнейших памятников православия в Восточной Европе (12 век). Уникальна своей кладкой из майолики и тем, что половина храма осталась деревянной после оползня.",
+            d: "Свято-Борисо-Глебская церковь — памятник архитектуры 12 века. Её стены украшены вставками из крупных полированных камней и многоцветных майоликовых плиток в форме крестов.",
             i: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Kalozha_Church_Hrodna_2021.jpg/1280px-Kalozha_Church_Hrodna_2021.jpg"
         },
         f: {
             t: "Фарный костел",
-            d: "Собор Святого Франциска Ксаверия. Его алтарь — один из самых высоких в Европе (21 метр), а башенные часы старше пражских курантов.",
+            d: "Один из самых богатых храмов Речи Посполитой. Внутри находится деревянный алтарь высотой с семиэтажный дом, украшенный более чем 20 фигурами святых. Башенные часы — одни из старейших в Европе.",
             i: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Hrodna_Cathedral_2021.jpg/1280px-Hrodna_Cathedral_2021.jpg"
         },
         t: {
             t: "Драмтеатр",
-            d: "Футуристичное здание, напоминающее корону. Построено в 80-х годах и стало главным символом Гродно. Отсюда открывается лучший вид на Неман.",
+            d: "Здание областного драматического театра — шедевр советского модернизма. Его необычная форма напоминает корону, что очень символично для Гродно как города королей.",
             i: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Grodno_Drama_Theatre_01.jpg/1280px-Grodno_Drama_Theatre_01.jpg"
         },
         s: {
-            t: "Большая Хоральная Синагога",
-            d: "Одна из старейших и красивейших в Европе. Внутри работает музей, посвященный истории еврейской общины города, которая когда-то составляла половину населения Гродно.",
+            t: "Большая синагога",
+            d: "Построена итальянским архитектором Санти Гуччи. Это одна из старейших синаногу в Европе. Она чудом уцелела во время войны и сегодня является важным культурным центром.",
             i: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Hrodna_Great_Synagogue_2021.jpg/1280px-Hrodna_Great_Synagogue_2021.jpg"
         },
         pk: {
             t: "Пожарная каланча",
-            d: "Действующая пожарная часть с 32-метровой башней. На её фреске изображена девушка, удивительно похожая на Мону Лизу в пожарной форме.",
+            d: "Памятник архитектуры начала 20 века. Каждый день в полдень на башню поднимается трубач в старинной форме и исполняет фанфары. Обратите внимание на фреску у входа!",
             i: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Hrodna_Fire_Tower_2021.jpg/1280px-Hrodna_Fire_Tower_2021.jpg"
         },
         a: {
             t: "Аптека-музей",
-            d: "Расположена в здании 1709 года. Это самая старая действующая аптека в стране, где сохранились алхимические лаборатории и старинные рецепты.",
+            d: "Единственная в Беларуси аптека-музей. Она была основана иезуитами еще в 1709 году. Здесь можно увидеть старинную посуду, медицинские инструменты и даже настоящую алхимическую лабораторию.",
             i: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Old_Pharmacy_Grodno.jpg/1280px-Old_Pharmacy_Grodno.jpg"
         }
     };
 
     function smotret(id) {
         var x = places[id];
-        document.getElementById('main_bg').style.backgroundImage = "url('" + x.i + "')";
-        document.getElementById('info').style.opacity = 0;
+        var bg = document.getElementById('main_bg');
+        var info = document.getElementById('info');
+        
+        // Плавная смена контента
+        bg.style.backgroundImage = "url('" + x.i + "')";
+        info.style.opacity = 0;
+        
         setTimeout(function() {
-            document.getElementById('info').innerHTML = "<h2>" + x.t + "</h2><p>" + x.d + "</p>";
-            document.getElementById('info').style.opacity = 1;
+            info.innerHTML = "<h2>" + x.t + "</h2><p>" + x.d + "</p>";
+            info.style.opacity = 1;
         }, 300);
     }
+</script>
+
+</body>
+</html>
 </script>
 </body>
 </html>
