@@ -3,109 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Цифровой путеводитель Гродно</title>
+    <title>Путеводитель: Культурный облик Гродно</title>
     <style>
-        /* Базовый стиль, чтобы выглядело современно */
+        :root {
+            --primary: #2c3e50;
+            --accent: #e74c3c;
+            --bg: #f8f9fa;
+        }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg);
+            margin: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
+        }
+        header {
+            background: var(--primary);
+            color: white;
+            width: 100%;
             padding: 20px;
             text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
-
-        .container {
+        .main-card {
             background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            max-width: 600px;
-            width: 100%;
+            max-width: 800px;
+            width: 90%;
+            margin: 20px;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-
-        h1 {
-            color: #2c3e50;
-            margin-bottom: 10px;
+        /* Сетка для кнопок-объектов (Элемент управления) */
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
         }
-
-        p {
-            line-height: 1.6;
-            color: #666;
-        }
-
-        .interactive-box {
-            margin-top: 20px;
+        .nav-btn {
+            background: #ecf0f1;
+            border: 2px solid var(--primary);
             padding: 15px;
-            border: 2px dashed #3498db;
-            border-radius: 10px;
-            min-height: 50px;
-        }
-
-        button {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 16px;
-            transition: background 0.3s;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .nav-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+        /* Всплывающая панель (Интерактивный элемент) */
+        #info-panel {
+            display: none;
+            background: #fff;
+            border-left: 5px solid var(--accent);
+            padding: 20px;
             margin-top: 20px;
+            animation: fadeIn 0.5s;
         }
-
-        button:hover {
-            background-color: #2980b9;
-        }
-
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
         .footer {
-            margin-top: 30px;
-            font-size: 12px;
-            color: #999;
+            padding: 20px;
+            font-size: 0.9em;
+            color: #7f8c8d;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Гродно: Культурный облик</h1>
-        <p>Добро пожаловать в цифровой путеводитель. Нажми на кнопку, чтобы узнать интересный факт о нашем городе!</p>
-        
-        <div class="interactive-box" id="info-display">
-            Здесь появится информация...
-        </div>
+<header>
+    <h1>Культурный облик Гродно</h1>
+    <p>Интерактивный цифровой путеводитель</p>
+</header>
 
-        <button onclick="showFact()">Узнать факт!</button>
+<div class="main-card">
+    <h3>Выберите объект для изучения:</h3>
+    <div class="nav-grid">
+        <button class="nav-btn" onclick="showInfo('castle')">Старый замок</button>
+        <button class="nav-btn" onclick="showInfo('church')">Коложская церковь</button>
+        <button class="nav-btn" onclick="showInfo('farny')">Фарный костел</button>
+        <button class="nav-btn" onclick="showInfo('theater')">Драмтеатр</button>
     </div>
 
-    <div class="footer">
-        Разработано специально для конкурса Гимназии №7
+    <div id="info-panel">
+        <h2 id="obj-title">Название объекта</h2>
+        <p id="obj-desc">Описание появится здесь...</p>
+        <div id="obj-media"></div>
     </div>
+</div>
 
-    <script>
-        // Массив с фактами для интерактива
-        const facts = [
-            "Гродно — единственный город в Беларуси, имеющий статус памятника градостроительства и архитектуры.",
-            "Старый замок в Гродно был построен еще в 14 веке князем Витовтом.",
-            "Коложская церковь — одна из старейших действующих церквей в Восточной Европе.",
-            "В Гродно находится старейшая действующая аптека-музей в Беларуси."
-        ];
+<div class="footer">
+    Автор: Ученик СШ №40 г. Гродно <br>
+    Проект для конкурса «Цифровой путеводитель»
+</div>
 
-        function showFact() {
-            const display = document.getElementById('info-display');
-            // Выбираем случайный факт
-            const randomFact = facts[Math.floor(Math.random() * facts.length)];
-            display.innerText = randomFact;
-            display.style.color = '#2c3e50';
-            display.style.fontWeight = 'bold';
+<script>
+    const data = {
+        castle: {
+            title: "Старый замок",
+            desc: "Королевская резиденция, заложенная в XIV веке. В последние годы прошла масштабная реконструкция.",
+            media: "📍 Замковая гора"
+        },
+        church: {
+            title: "Коложская церковь",
+            desc: "Уникальный памятник древнерусского зодчества XII века с майоликовыми вставками на стенах.",
+            media: "📍 ул. Коложа"
+        },
+        farny: {
+            title: "Фарный костел",
+            desc: "Один из самых богатых барочных костелов Восточной Европы с уникальным деревянным алтарем.",
+            media: "📍 Советская площадь"
+        },
+        theater: {
+            title: "Областной драмтеатр",
+            desc: "Футуристическое здание, ставшее одним из архитектурных символов современного Гродно.",
+            media: "📍 ул. Мостовая"
         }
-    </script>
+    };
+
+    function showInfo(id) {
+        const panel = document.getElementById('info-panel');
+        document.getElementById('obj-title').innerText = data[id].title;
+        document.getElementById('obj-desc').innerText = data[id].desc;
+        document.getElementById('obj-media').innerText = data[id].media;
+        panel.style.display = 'block';
+        window.scrollTo({ top: panel.offsetTop, behavior: 'smooth' });
+    }
+</script>
 
 </body>
 </html>
-
