@@ -3,137 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Путеводитель: Культурный облик Гродно</title>
+    <title>Культурный Гродно — СШ №40</title>
     <style>
         :root {
-            --primary: #2c3e50;
-            --accent: #e74c3c;
-            --bg: #f8f9fa;
+            --gold: #d4af37;
+            --dark: #1a1a1a;
+            --glass: rgba(255, 255, 255, 0.9);
         }
+
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: var(--bg);
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background: #2c3e50; /* Темный солидный фон */
+            color: #333;
             margin: 0;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            height: 100vh;
+            overflow: hidden; /* Чтобы не было лишних скроллов на компе */
         }
+
         header {
-            background: var(--primary);
+            background: var(--dark);
             color: white;
-            width: 100%;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-        .main-card {
-            background: white;
-            max-width: 800px;
-            width: 90%;
-            margin: 20px;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        /* Сетка для кнопок-объектов (Элемент управления) */
-        .nav-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-        .nav-btn {
-            background: #ecf0f1;
-            border: 2px solid var(--primary);
             padding: 15px;
+            text-align: center;
+            border-bottom: 3px solid var(--gold);
+        }
+
+        .main-layout {
+            display: flex;
+            flex: 1;
+            padding: 20px;
+            gap: 20px;
+            align-items: stretch;
+        }
+
+        /* Кнопки слева */
+        .sidebar-left {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            background: var(--glass);
+            border: 1px solid #ccc;
+            padding: 20px 15px;
             border-radius: 8px;
             cursor: pointer;
+            font-size: 16px;
             font-weight: bold;
             transition: 0.3s;
+            text-align: left;
         }
+
         .nav-btn:hover {
-            background: var(--primary);
+            background: var(--gold);
             color: white;
+            transform: translateX(10px);
         }
-        /* Всплывающая панель (Интерактивный элемент) */
-        #info-panel {
-            display: none;
-            background: #fff;
-            border-left: 5px solid var(--accent);
-            padding: 20px;
-            margin-top: 20px;
-            animation: fadeIn 0.5s;
+
+        .nav-btn.active {
+            background: var(--gold);
+            color: white;
+            border-color: var(--dark);
         }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
-        .footer {
-            padding: 20px;
-            font-size: 0.9em;
-            color: #7f8c8d;
+
+        /* Центр: Картинка */
+        .center-display {
+            flex: 2;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        #main-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Описание справа */
+        .sidebar-right {
+            flex: 1;
+            background: var(--glass);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+        }
+
+        #info-content h2 {
+            color: var(--dark);
+            border-bottom: 2px solid var(--gold);
+            padding-bottom: 10px;
+        }
+
+        #info-content p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        footer {
+            background: var(--dark);
+            color: #aaa;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        /* Анимация появления контента */
+        .fade-in {
+            animation: fadeIn 0.8s forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>Культурный облик Гродно</h1>
-    <p>Интерактивный цифровой путеводитель</p>
+    <h1>Цифровой путеводитель: Культурный облик Гродно</h1>
+    <small>Участник конкурса: Средняя школа №40 г. Гродно</small>
 </header>
 
-<div class="main-card">
-    <h3>Выберите объект для изучения:</h3>
-    <div class="nav-grid">
-        <button class="nav-btn" onclick="showInfo('castle')">Старый замок</button>
-        <button class="nav-btn" onclick="showInfo('church')">Коложская церковь</button>
-        <button class="nav-btn" onclick="showInfo('farny')">Фарный костел</button>
-        <button class="nav-btn" onclick="showInfo('theater')">Драмтеатр</button>
+<div class="main-layout">
+    <div class="sidebar-left">
+        <button class="nav-btn" onclick="updateView('castle', this)">🏰 Старый замок</button>
+        <button class="nav-btn" onclick="updateView('church', this)">⛪ Коложская церковь</button>
+        <button class="nav-btn" onclick="updateView('farny', this)">⛪ Фарный костел</button>
+        <button class="nav-btn" onclick="updateView('theater', this)">🎭 Драмтеатр</button>
+        <button class="nav-btn" onclick="updateView('pharmacy', this)">💊 Аптека-музей</button>
     </div>
 
-    <div id="info-panel">
-        <h2 id="obj-title">Название объекта</h2>
-        <p id="obj-desc">Описание появится здесь...</p>
-        <div id="obj-media"></div>
+    <div class="center-display">
+        <img id="main-img" src="https://grodnolib.by/wp-content/uploads/2021/09/grodno-1.jpg" alt="Гродно">
+    </div>
+
+    <div class="sidebar-right" id="info-panel">
+        <div id="info-content" class="fade-in">
+            <h2>Добро пожаловать!</h2>
+            <p>Выберите объект слева, чтобы начать экскурсию по нашему замечательному городу.</p>
+            <p><i>Интерактивная карта разработана для сохранения культурного наследия Гродно.</i></p>
+        </div>
     </div>
 </div>
 
-<div class="footer">
-    Автор: Ученик СШ №40 г. Гродно <br>
-    Проект для конкурса «Цифровой путеводитель»
-</div>
+<footer>
+    © 2024 Гродно | Школа №40 | Проект для конкурса
+</footer>
 
 <script>
-    const data = {
+    const content = {
         castle: {
             title: "Старый замок",
-            desc: "Королевская резиденция, заложенная в XIV веке. В последние годы прошла масштабная реконструкция.",
-            media: "📍 Замковая гора"
+            desc: "Уникальное оборонительное сооружение и королевская резиденция. После реконструкции замок обрел черты эпохи Стефана Батория. Обязательно посетите смотровую площадку!",
+            img: "https://vgr.by/wp-content/uploads/2021/11/staryj-zamok-grodno.jpg"
         },
         church: {
             title: "Коложская церковь",
-            desc: "Уникальный памятник древнерусского зодчества XII века с майоликовыми вставками на стенах.",
-            media: "📍 ул. Коложа"
+            desc: "Свято-Борисо-Глебская церковь XII века. Единственный сохранившийся памятник чернорусского зодчества. Стены украшены вставками из цветных камней и майолики.",
+            img: "https://planetabelarus.by/upload/resize_cache/iblock/785/1330_887_17f5c53143f254924c03d4b6842795c6a/7858f964a755106606020c660633b664.jpg"
         },
         farny: {
             title: "Фарный костел",
-            desc: "Один из самых богатых барочных костелов Восточной Европы с уникальным деревянным алтарем.",
-            media: "📍 Советская площадь"
+            desc: "Кафедральный собор Святого Франциска Ксаверия. Знаменит своим барочным алтарем высотой более 20 метров и старейшими башенными часами в Европе.",
+            img: "https://grodnonews.by/upload/resize_cache/iblock/14d/1200_800_1/14da767098f98d415750d061f2518e3a.jpg"
         },
         theater: {
             title: "Областной драмтеатр",
-            desc: "Футуристическое здание, ставшее одним из архитектурных символов современного Гродно.",
-            media: "📍 ул. Мостовая"
+            desc: "Построен в 1984 году. Его называют 'короной' или 'замком из будущего'. Это одно из самых узнаваемых зданий Гродно в стиле советского модернизма.",
+            img: "https://vgr.by/wp-content/uploads/2020/08/dramteatr-grodno.jpg"
+        },
+        pharmacy: {
+            title: "Аптека-музей",
+            desc: "Старейшая аптека в Беларуси (1709 г.). Здесь можно увидеть старинные колбы, рецепты и почувствовать атмосферу средневековой медицины.",
+            img: "https://grodno.in/images/news/2021/04/aptheka_3.jpg"
         }
     };
 
-    function showInfo(id) {
-        const panel = document.getElementById('info-panel');
-        document.getElementById('obj-title').innerText = data[id].title;
-        document.getElementById('obj-desc').innerText = data[id].desc;
-        document.getElementById('obj-media').innerText = data[id].media;
-        panel.style.display = 'block';
-        window.scrollTo({ top: panel.offsetTop, behavior: 'smooth' });
+    function updateView(key, btn) {
+        // Убираем активный класс у всех кнопок
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        // Добавляем активный класс нажатой кнопке
+        btn.classList.add('active');
+
+        const obj = content[key];
+        const img = document.getElementById('main-img');
+        const info = document.getElementById('info-content');
+
+        // Эффект смены картинки
+        img.style.opacity = '0';
+        
+        setTimeout(() => {
+            img.src = obj.img;
+            img.style.opacity = '1';
+            
+            info.innerHTML = `
+                <h2>${obj.title}</h2>
+                <p>${obj.desc}</p>
+                <div style="margin-top:20px; color: #d4af37; font-weight: bold;">✔ Объект изучен</div>
+            `;
+            
+            // Перезапуск анимации текста
+            info.classList.remove('fade-in');
+            void info.offsetWidth; // Магия для сброса анимации
+            info.classList.add('fade-in');
+        }, 300);
     }
 </script>
 
 </body>
 </html>
+
