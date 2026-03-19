@@ -1,1 +1,111 @@
-hi vercel
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Цифровой путеводитель Гродно</title>
+    <style>
+        /* Базовый стиль, чтобы выглядело современно */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        p {
+            line-height: 1.6;
+            color: #666;
+        }
+
+        .interactive-box {
+            margin-top: 20px;
+            padding: 15px;
+            border: 2px dashed #3498db;
+            border-radius: 10px;
+            min-height: 50px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Гродно: Культурный облик</h1>
+        <p>Добро пожаловать в цифровой путеводитель. Нажми на кнопку, чтобы узнать интересный факт о нашем городе!</p>
+        
+        <div class="interactive-box" id="info-display">
+            Здесь появится информация...
+        </div>
+
+        <button onclick="showFact()">Узнать факт!</button>
+    </div>
+
+    <div class="footer">
+        Разработано специально для конкурса Гимназии №7
+    </div>
+
+    <script>
+        // Массив с фактами для интерактива
+        const facts = [
+            "Гродно — единственный город в Беларуси, имеющий статус памятника градостроительства и архитектуры.",
+            "Старый замок в Гродно был построен еще в 14 веке князем Витовтом.",
+            "Коложская церковь — одна из старейших действующих церквей в Восточной Европе.",
+            "В Гродно находится старейшая действующая аптека-музей в Беларуси."
+        ];
+
+        function showFact() {
+            const display = document.getElementById('info-display');
+            // Выбираем случайный факт
+            const randomFact = facts[Math.floor(Math.random() * facts.length)];
+            display.innerText = randomFact;
+            display.style.color = '#2c3e50';
+            display.style.fontWeight = 'bold';
+        }
+    </script>
+
+</body>
+</html>
+
